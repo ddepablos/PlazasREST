@@ -53,9 +53,16 @@ namespace PlazasREST
 
         }
 
-        public Record GetVersion()
+        public List<Record> GetVersion()
         {
-            return new Record() { excode = SERVICE_CODE, exdetail = "Versión 1.0.0 : 2015-10-26" };
+
+            List<Record> version = new List<Record>();
+
+            version.Add(new Record() { excode = "1.0.0", exdetail = "2015-10-26 - Versión Inicial" });
+            version.Add(new Record() { excode = "1.0.1", exdetail = "2016-01-11 - GetVersion : Incorporación de Listado de Versiones." });
+
+            return version;
+
         }
 
         #endregion

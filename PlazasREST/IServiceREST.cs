@@ -30,8 +30,8 @@ namespace PlazasREST
         Record GetEcho(string numero);
 
         [OperationContract]
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/version")]
-        Record GetVersion();
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/getversion")]
+        List<Record> GetVersion();
 
         #endregion
 
