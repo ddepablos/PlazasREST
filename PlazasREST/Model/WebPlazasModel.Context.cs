@@ -13,10 +13,10 @@ namespace PlazasREST.Model
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ElPlazasEntities : DbContext
+    public partial class WebPlazasEntities : DbContext
     {
-        public ElPlazasEntities()
-            : base("name=ElPlazasEntities")
+        public WebPlazasEntities()
+            : base("name=WebPlazasEntities")
         {
         }
     
@@ -26,7 +26,7 @@ namespace PlazasREST.Model
         }
     
         public virtual DbSet<Customer> Customers { get; set; }
-        public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<Store> Stores { get; set; }
+        public virtual DbSet<Person> People { get; set; }
     }
 }

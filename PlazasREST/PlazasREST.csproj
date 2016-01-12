@@ -81,29 +81,29 @@
     <Compile Include="Model\CCustomer.cs" />
     <Compile Include="Model\CStore.cs" />
     <Compile Include="Model\Customer.cs">
-      <DependentUpon>PlazasModel.tt</DependentUpon>
+      <DependentUpon>WebPlazasModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Person.cs">
-      <DependentUpon>PlazasModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\PlazasModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PlazasModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\PlazasModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PlazasModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\PlazasModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PlazasModel.edmx</DependentUpon>
+      <DependentUpon>WebPlazasModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Record.cs" />
     <Compile Include="Model\Store.cs">
-      <DependentUpon>PlazasModel.tt</DependentUpon>
+      <DependentUpon>WebPlazasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\WebPlazasModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebPlazasModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\WebPlazasModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebPlazasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\WebPlazasModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebPlazasModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Module\Response.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -116,22 +116,22 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <EntityDeploy Include="Model\PlazasModel.edmx">
+    <EntityDeploy Include="Model\WebPlazasModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>PlazasModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>WebPlazasModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Model\PlazasModel.Context.tt">
+    <Content Include="Model\WebPlazasModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>PlazasModel.edmx</DependentUpon>
-      <LastGenOutput>PlazasModel.Context.cs</LastGenOutput>
+      <DependentUpon>WebPlazasModel.edmx</DependentUpon>
+      <LastGenOutput>WebPlazasModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Model\PlazasModel.edmx.diagram">
-      <DependentUpon>PlazasModel.edmx</DependentUpon>
+    <Content Include="Model\WebPlazasModel.edmx.diagram">
+      <DependentUpon>WebPlazasModel.edmx</DependentUpon>
     </Content>
-    <Content Include="Model\PlazasModel.tt">
+    <Content Include="Model\WebPlazasModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>PlazasModel.edmx</DependentUpon>
-      <LastGenOutput>PlazasModel.cs</LastGenOutput>
+      <DependentUpon>WebPlazasModel.edmx</DependentUpon>
+      <LastGenOutput>WebPlazasModel.cs</LastGenOutput>
     </Content>
     <None Include="Properties\PublishProfiles\PlazasREST.pubxml" />
     <None Include="Web.Debug.config">

@@ -58,8 +58,9 @@ namespace PlazasREST
 
             List<Record> version = new List<Record>();
 
-            version.Add(new Record() { excode = "1.0.0", exdetail = "2015-10-26 - Versión Inicial" });
+            version.Add(new Record() { excode = "1.1.0", exdetail = "2016-01-12 - Release 1.1.0" });
             version.Add(new Record() { excode = "1.0.1", exdetail = "2016-01-11 - GetVersion : Incorporación de Listado de Versiones." });
+            version.Add(new Record() { excode = "1.0.0", exdetail = "2015-10-26 - Versión Inicial" });
 
             return version;
 
@@ -77,7 +78,7 @@ namespace PlazasREST
         public CCustomer GetClientByNumDoc(string keyword)
         {
 
-            using (ElPlazasEntities context = new ElPlazasEntities())
+            using (WebPlazasEntities context = new WebPlazasEntities())
             {
 
                 try
@@ -132,7 +133,7 @@ namespace PlazasREST
         public CCustomer GetClientByName(string keyword)
         {
 
-            using (ElPlazasEntities context = new ElPlazasEntities())
+            using (WebPlazasEntities context = new WebPlazasEntities())
             {
 
                 try
@@ -187,7 +188,7 @@ namespace PlazasREST
             try
             {
 
-                using (ElPlazasEntities context = new ElPlazasEntities())
+                using (WebPlazasEntities context = new WebPlazasEntities())
                 {
 
                     var keyword = int.Parse(id);
@@ -251,7 +252,7 @@ namespace PlazasREST
             try
             {
 
-                using (ElPlazasEntities context = new ElPlazasEntities())
+                using (WebPlazasEntities context = new WebPlazasEntities())
                 {
 
                     var findKey = int.Parse(keyword);
@@ -286,7 +287,7 @@ namespace PlazasREST
             try
             {
 
-            using (ElPlazasEntities context = new ElPlazasEntities())
+            using (WebPlazasEntities context = new WebPlazasEntities())
             {
 
                 var result = context.Customers.SingleOrDefault(c => c.docnumber == keyword);
@@ -321,7 +322,7 @@ namespace PlazasREST
             try
             {
 
-                using (ElPlazasEntities context = new ElPlazasEntities())
+                using (WebPlazasEntities context = new WebPlazasEntities())
                 {
 
                     if (Regex.IsMatch(keyword, @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
@@ -385,9 +386,14 @@ namespace PlazasREST
                 }
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return null;
+                //return null;
+                List<CCustomers> exception = new List<CCustomers>();
+
+                exception.Add(new CCustomers() { exnumber = e.Source + ": " + e.Message + " - " + e.InnerException });
+
+                return exception;
             }
 
         }
@@ -403,7 +409,7 @@ namespace PlazasREST
             try
             {
 
-                using (ElPlazasEntities context = new ElPlazasEntities())
+                using (WebPlazasEntities context = new WebPlazasEntities())
                 {
 
                     var result = (from store in context.Stores 

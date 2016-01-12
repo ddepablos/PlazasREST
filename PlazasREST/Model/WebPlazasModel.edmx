@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="PlazasContext.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ElPlazasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="id" />
@@ -54,7 +54,6 @@
           <Property Name="nationality" Type="varchar" MaxLength="50" />
           <Property Name="careerid" Type="int" />
           <Property Name="birthplace" Type="varchar" MaxLength="100" />
-          <Property Name="department" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Store">
           <Key>
@@ -86,7 +85,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="PlazasContextStoreContainer">
+        <EntityContainer Name="ElPlazasModelStoreContainer">
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Store" EntityType="Self.Store" Schema="dbo" store:Type="Tables" />
@@ -98,7 +97,7 @@
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="PlazasContext" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="ElPlazasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="id" />
@@ -129,8 +128,35 @@
           <Property Name="ItemModifyWF" Type="Int64" />
           <Property Name="creationdate" Type="DateTime" Precision="3" />
           <Property Name="lastmodifydate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="People" Relationship="Self.FK_Person_Customer" FromRole="Customer" ToRole="Person" />
+          <NavigationProperty Name="People" Relationship="ElPlazasModel.FK_Person_Customer" FromRole="Customer" ToRole="Person" />
         </EntityType>
+        <EntityType Name="Store">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="latitude" Type="Double" />
+          <Property Name="longitude" Type="Double" />
+          <Property Name="lastinventory" Type="DateTime" Precision="3" />
+          <Property Name="enabled" Type="Boolean" Nullable="false" />
+          <Property Name="phone1" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="phone2" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="openingAt" Type="DateTime" Precision="3" />
+          <Property Name="closingAt" Type="DateTime" Precision="3" />
+          <Property Name="sunOpeningAt" Type="DateTime" Precision="3" />
+          <Property Name="sunClosingAt" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="WebPlazasEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Stores" EntityType="Self.Store" />
+          <EntitySet Name="People" EntityType="ElPlazasModel.Person" />
+          <AssociationSet Name="FK_Person_Customer" Association="ElPlazasModel.FK_Person_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Person" EntitySet="People" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Person">
           <Key>
             <PropertyRef Name="id" />
@@ -149,12 +175,11 @@
           <Property Name="nationality" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="careerid" Type="Int32" />
           <Property Name="birthplace" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="department" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK_Person_Customer" FromRole="Person" ToRole="Customer" />
+          <NavigationProperty Name="Customer" Relationship="ElPlazasModel.FK_Person_Customer" FromRole="Person" ToRole="Customer" />
         </EntityType>
         <Association Name="FK_Person_Customer">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
-          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+          <End Type="ElPlazasModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="ElPlazasModel.Person" Role="Person" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Customer">
               <PropertyRef Name="id" />
@@ -164,41 +189,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ElPlazasEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Customers" EntityType="Self.Customer" />
-          <EntitySet Name="People" EntityType="Self.Person" />
-          <AssociationSet Name="FK_Person_Customer" Association="Self.FK_Person_Customer">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="Person" EntitySet="People" />
-          </AssociationSet>
-          <EntitySet Name="Stores" EntityType="PlazasContext.Store" />
-        </EntityContainer>
-        <EntityType Name="Store">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="latitude" Type="Double" />
-          <Property Name="longitude" Type="Double" />
-          <Property Name="lastinventory" Type="DateTime" Precision="3" />
-          <Property Name="enabled" Type="Boolean" Nullable="false" />
-          <Property Name="phone1" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="phone2" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="openingAt" Type="DateTime" Precision="3" />
-          <Property Name="closingAt" Type="DateTime" Precision="3" />
-          <Property Name="sunOpeningAt" Type="DateTime" Precision="3" />
-          <Property Name="sunClosingAt" Type="DateTime" Precision="3" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="PlazasContextStoreContainer" CdmEntityContainer="ElPlazasEntities">
+        <EntityContainerMapping StorageEntityContainer="ElPlazasModelStoreContainer" CdmEntityContainer="WebPlazasEntities">
           <EntitySetMapping Name="Customers">
-            <EntityTypeMapping TypeName="PlazasContext.Customer">
+            <EntityTypeMapping TypeName="ElPlazasModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="email" ColumnName="email" />
@@ -229,42 +227,41 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="People">
-            <EntityTypeMapping TypeName="PlazasContext.Person">
-              <MappingFragment StoreEntitySet="Person">
+          <EntitySetMapping Name="Stores">
+            <EntityTypeMapping TypeName="ElPlazasModel.Store">
+              <MappingFragment StoreEntitySet="Store">
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="customerid" ColumnName="customerid" />
-                <ScalarProperty Name="titleid" ColumnName="titleid" />
-                <ScalarProperty Name="birthdate" ColumnName="birthdate" />
-                <ScalarProperty Name="gender" ColumnName="gender" />
-                <ScalarProperty Name="name2" ColumnName="name2" />
-                <ScalarProperty Name="lastname1" ColumnName="lastname1" />
-                <ScalarProperty Name="lastname2" ColumnName="lastname2" />
-                <ScalarProperty Name="maidenname" ColumnName="maidenname" />
-                <ScalarProperty Name="maritalstatus" ColumnName="maritalstatus" />
-                <ScalarProperty Name="occupation" ColumnName="occupation" />
-                <ScalarProperty Name="nationality" ColumnName="nationality" />
-                <ScalarProperty Name="careerid" ColumnName="careerid" />
-                <ScalarProperty Name="birthplace" ColumnName="birthplace" />
-                <ScalarProperty Name="department" ColumnName="department" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+                <ScalarProperty Name="lastinventory" ColumnName="lastinventory" />
+                <ScalarProperty Name="enabled" ColumnName="enabled" />
+                <ScalarProperty Name="phone1" ColumnName="phone1" />
+                <ScalarProperty Name="phone2" ColumnName="phone2" />
+                <ScalarProperty Name="openingAt" ColumnName="openingAt" />
+                <ScalarProperty Name="closingAt" ColumnName="closingAt" />
+                <ScalarProperty Name="sunOpeningAt" ColumnName="sunOpeningAt" />
+                <ScalarProperty Name="sunClosingAt" ColumnName="sunClosingAt" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Stores">
-            <EntityTypeMapping TypeName="PlazasContext.Store">
-              <MappingFragment StoreEntitySet="Store">
-                <ScalarProperty Name="sunClosingAt" ColumnName="sunClosingAt" />
-                <ScalarProperty Name="sunOpeningAt" ColumnName="sunOpeningAt" />
-                <ScalarProperty Name="closingAt" ColumnName="closingAt" />
-                <ScalarProperty Name="openingAt" ColumnName="openingAt" />
-                <ScalarProperty Name="phone2" ColumnName="phone2" />
-                <ScalarProperty Name="phone1" ColumnName="phone1" />
-                <ScalarProperty Name="enabled" ColumnName="enabled" />
-                <ScalarProperty Name="lastinventory" ColumnName="lastinventory" />
-                <ScalarProperty Name="longitude" ColumnName="longitude" />
-                <ScalarProperty Name="latitude" ColumnName="latitude" />
-                <ScalarProperty Name="address" ColumnName="address" />
-                <ScalarProperty Name="name" ColumnName="name" />
+          <EntitySetMapping Name="People">
+            <EntityTypeMapping TypeName="ElPlazasModel.Person">
+              <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="birthplace" ColumnName="birthplace" />
+                <ScalarProperty Name="careerid" ColumnName="careerid" />
+                <ScalarProperty Name="nationality" ColumnName="nationality" />
+                <ScalarProperty Name="occupation" ColumnName="occupation" />
+                <ScalarProperty Name="maritalstatus" ColumnName="maritalstatus" />
+                <ScalarProperty Name="maidenname" ColumnName="maidenname" />
+                <ScalarProperty Name="lastname2" ColumnName="lastname2" />
+                <ScalarProperty Name="lastname1" ColumnName="lastname1" />
+                <ScalarProperty Name="name2" ColumnName="name2" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="birthdate" ColumnName="birthdate" />
+                <ScalarProperty Name="titleid" ColumnName="titleid" />
+                <ScalarProperty Name="customerid" ColumnName="customerid" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

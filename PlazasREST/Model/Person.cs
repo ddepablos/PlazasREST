@@ -28,7 +28,6 @@ namespace PlazasREST.Model
         public string nationality { get; set; }
         public Nullable<int> careerid { get; set; }
         public string birthplace { get; set; }
-        public string department { get; set; }
     
         public virtual Customer Customer { get; set; }
     }
